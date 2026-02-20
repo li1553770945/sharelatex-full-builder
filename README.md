@@ -25,7 +25,7 @@ Edit the `.env` file:
 
 ```bash
 # Your Docker Hub repository
-MY_REPO=yourname/overleaf-full
+MY_REPO=yourname/sharelatex-full
 
 # The base official tag (e.g., latest, 5, 6.1.2)
 OFFICIAL_TAG=latest
@@ -40,9 +40,7 @@ TL_MIRROR=https://mirror.ctan.org/systems/texlive/tlnet
 Simply run the script:
 
 ```bash
-chmod +x publish.sh
-./publish.sh
-
+bash build-and-push.sh
 ```
 
 ## 📦 Outputs

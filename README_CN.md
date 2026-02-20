@@ -25,7 +25,7 @@ sudo apt install jq  # Ubuntu/Debian
 
 ```bash
 # 你要推送到 Docker Hub 的仓库名
-MY_REPO=yourname/overleaf-full
+MY_REPO=yourname/sharelatex-full
 
 # 想要基于的官方版本 (如 latest, 5, 6.1.2)
 OFFICIAL_TAG=latest
@@ -40,9 +40,7 @@ TL_MIRROR=[https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet](http
 运行自动化脚本：
 
 ```bash
-chmod +x publish.sh
-./publish.sh
-
+bash build-and-push.sh
 ```
 
 ## 📦 产出镜像
