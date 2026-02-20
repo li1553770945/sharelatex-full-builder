@@ -43,18 +43,27 @@ if [ "$OFFICIAL_TAG" = "latest" ]; then
 fi
 
 # 3. 构建镜像
-# 我们同时给镜像打两个标签：具体版本号 和 latest
-docker build \
-    --build-arg OFFICIAL_TAG=$OFFICIAL_TAG \
-    --build-arg TL_MIRROR=$TL_MIRROR \
-    -t ${MY_REPO}:${TARGET_TAG} \
-    -t ${MY_REPO}:latest .
+# 仅当 OFFICIAL_TAG 为 latest 时同时打 latest 标签，否则只打 TARGET_TAG
+if [ "$OFFICIAL_TAG" = "latest" ]; then
+    docker build \
+        --build-arg OFFICIAL_TAG=$OFFICIAL_TAG \
+        --build-arg TL_MIRROR=$TL_MIRROR \
+        -t ${MY_REPO}:${TARGET_TAG} \
+        -t ${MY_REPO}:latest .
+else
+    docker build \
+        --build-arg OFFICIAL_TAG=$OFFICIAL_TAG \
+        --build-arg TL_MIRROR=$TL_MIRROR \
+        -t ${MY_REPO}:${TARGET_TAG} .
+fi
 
 # 4. 推送
 if [ $? -eq 0 ]; then
     echo ">>> 构建成功，准备推送..."
     docker push ${MY_REPO}:${TARGET_TAG}
-    docker push ${MY_REPO}:latest
+    if [ "$OFFICIAL_TAG" = "latest" ]; then
+        docker push ${MY_REPO}:latest
+    fi
     echo ">>> 所有任务完成！"
     echo ">>> 你的镜像地址: ${MY_REPO}:${TARGET_TAG}"
 else
